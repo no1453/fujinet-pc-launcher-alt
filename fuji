@@ -1,0 +1,19 @@
+#!/bin/bash
+# Change these two lines to match directories
+export FJ_FUJI_DIR=~/src/fujinet-pc/build/dist
+export FJ_ALTIRRA_DIR=/mnt/d/bin/Altirra
+
+# Nothing below should need to be changed
+export FJ_NETSIO_DIR=$FJ_ALTIRRA_DIR/extras/deviceserver
+
+python3 $FJ_NETSIO_DIR/netsio-hub.py &
+
+cd $FJ_FUJI_DIR
+./run-fujinet &
+
+cd $FJ_ALTIRRA_DIR
+./Altirra.exe
+
+#When Altirra is done kill other processes.
+kill -9 `ps -C fujinet -o pid=`
+kill -9 `ps -C python3 -o pid=`
